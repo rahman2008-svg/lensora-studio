@@ -1,0 +1,33 @@
+# Codemagic CI/CD configuration for Lensora Studio
+# Built by NexVora Labs
+
+workflows:
+  android-build:
+    name: Lensora Studio Android Build
+    max_build_duration: 45
+    instance_type: mac_mini_m1
+    environment:
+      android_sdk: true
+      java: 17
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: 'main'
+          include: true
+    scripts:
+      - name: Set up Gradle permissions
+        script: |
+          chmod +x gradlew
+      - name: Build Debug APK
+        script: |
+          ./gradlew assembleDebug
+      - name: Build Release APK (unaligned/unsigned)
+        script: |
+          ./gradlew assembleRelease
+    cache:
+      cache_paths:
+        - ~/.gradle/caches
+        - ~/.gradle/wrapper
+    artifacts:
+      - app/build/outputs/apk/**/*.apk

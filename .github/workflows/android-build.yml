@@ -1,0 +1,43 @@
+name: Lensora Studio Android Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+
+      - name: Grant Execute Permission to Gradle Wrapper
+        run: chmod +x gradlew
+
+      - name: Build Debug & Release APKs
+        run: ./gradlew assembleDebug assembleRelease --no-daemon
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lensora-Studio-Debug-APK
+          path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Upload Release APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lensora-Studio-Release-APK
+          path: app/build/outputs/apk/release/app-release-unsigned.apk

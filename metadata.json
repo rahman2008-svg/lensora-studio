@@ -1,0 +1,6 @@
+{
+  "name": "Lensora Studio",
+  "description": "A next-generation photo & video editing application with RAW support, interactive color grading, curves, presets, crop, history, and real-time histogram.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
